@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------
+//  Company (Tenant)
+// ------------------------------------------------------
+model companies {
+  id        String     @id @default(uuid())
+  name      String
+  category_id  String
+  registered_at DateTime
+  address_id  String
+  registeration_no String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+ 
+  category   categories @relation(fields: [category_id], references: [id])
+  address     addresses @relation(fields: [address_id], references: [id])
+   users users[]
+}
+
+model categories {
+   id        String     @id @default(uuid())
+  name      String
+  company companies[]
+}
+
+model addresses {
+    id        String     @id @default(uuid())
+    address_line1 String
+    address_line2 String
+    zipCode       String
+    city          String
+    state         String
+    country       String
+    company companies
+}
+
+// ------------------------------------------------------
+//  Master Roles (Seeded Manually)
+// ------------------------------------------------------
+model roles {
+  id        String     @id @default(uuid())
+  name      String   @unique          // e.g., "CA", "STORE_MANAGER"
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+  users users[]
+  roles_permissions  roles_permissions[]
+}
+
+model permissions {
+  id        String     @id @default(uuid())
+  name      String
+  roles_permissions roles_permissions[]
+}
+
+model roles_permissions {
+  id        String     @id @default(uuid())
+  role_id String
+  permission_id String
+   role     roles @relation(fields: [role_id], references: [id])
+   permission permissions @relation(fields: [permission_id], references: [id])
+}
+// ------------------------------------------------------
+//  users
+// ------------------------------------------------------
+model users {
+   id        String     @id @default(uuid())
+  name        String
+  email       String    @unique
+  password_hash    String    // bcrypt hashed
+  is_deleted   Boolean   @default(false)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  // Foreign Keys
+  company_id   String
+  role_id      String
+  created_by_id String?      // null only for initial CA account
+
+  // Relations
+  company   companies @relation(fields: [company_id], references: [id])
+  role      roles    @relation(fields: [role_id], references: [id])
+  created_by users?   @relation("UserCreatedBy", fields: [created_by_id], references: [id])
+
+  @@index([company_id])
+  @@index([role_id])
+  @@index([email])
+  @@index([is_deleted])
+}
+
