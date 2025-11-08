@@ -7,95 +7,95 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ------------------------------------------------------
-//  Company (Tenant)
-// ------------------------------------------------------
-model companies {
-  id        String     @id @default(uuid())
-  name      String
-  category_id  String
-  registered_at DateTime
-  address_id  String
+model Company {
+  id               String   @id @default(uuid()) // treated as tenant id
+  name             String
+  category_id      String
+  registered_at    DateTime
   registeration_no String
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  category Category @relation(fields: [category_id], references: [id])
+  address  Address?
+  users    User[]
+
+  @@map("companies")
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  name    String
+  company Company[]
+
+  @@map("categories")
+}
+
+model Address {
+  id            String  @id @default(uuid())
+  address_line1 String
+  address_line2 String
+  zipCode       String
+  city          String
+  state         String
+  country       String
+  company       Company @relation(fields: [company_id], references: [id])
+  company_id    String  @unique
+
+  @@map("addresses")
+}
+
+model Role {
+  id         String   @id @default(uuid())
+  name       String   @unique // e.g., "CA", "STORE_MANAGER"
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  // Relations
- 
-  category   categories @relation(fields: [category_id], references: [id])
-  address     addresses @relation(fields: [address_id], references: [id])
-   users users[]
+  users             User[]
+  roles_permissions Role_Permission[]
+
+  @@map("roles")
 }
 
-model categories {
-   id        String     @id @default(uuid())
-  name      String
-  company companies[]
+model Permission {
+  id                String            @id @default(uuid())
+  name              String
+  roles_permissions Role_Permission[]
+
+  @@map("permissions")
 }
 
-model addresses {
-    id        String     @id @default(uuid())
-    address_line1 String
-    address_line2 String
-    zipCode       String
-    city          String
-    state         String
-    country       String
-    company companies
-}
-
-// ------------------------------------------------------
-//  Master Roles (Seeded Manually)
-// ------------------------------------------------------
-model roles {
-  id        String     @id @default(uuid())
-  name      String   @unique          // e.g., "CA", "STORE_MANAGER"
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  // Relations
-  users users[]
-  roles_permissions  roles_permissions[]
-}
-
-model permissions {
-  id        String     @id @default(uuid())
-  name      String
-  roles_permissions roles_permissions[]
-}
-
-model roles_permissions {
-  id        String     @id @default(uuid())
-  role_id String
+model Role_Permission {
+  id            String     @id @default(uuid())
+  role_id       String
   permission_id String
-   role     roles @relation(fields: [role_id], references: [id])
-   permission permissions @relation(fields: [permission_id], references: [id])
+  role          Role       @relation(fields: [role_id], references: [id])
+  permission    Permission @relation(fields: [permission_id], references: [id])
+
+  @@map("roles_permissions")
 }
-// ------------------------------------------------------
-//  users
-// ------------------------------------------------------
-model users {
-   id        String     @id @default(uuid())
-  name        String
-  email       String    @unique
-  password_hash    String    // bcrypt hashed
-  is_deleted   Boolean   @default(false)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
 
-  // Foreign Keys
-  company_id   String
-  role_id      String
-  created_by_id String?      // null only for initial CA account
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  is_deleted    Boolean  @default(false)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 
-  // Relations
-  company   companies @relation(fields: [company_id], references: [id])
-  role      roles    @relation(fields: [role_id], references: [id])
-  created_by users?   @relation("UserCreatedBy", fields: [created_by_id], references: [id])
+  company_id    String
+  role_id       String
+  created_by_id String? // null only for initial CA account
+
+  company       Company @relation(fields: [company_id], references: [id])
+  role          Role    @relation(fields: [role_id], references: [id])
+  created_by    User?   @relation("UserCreatedBy", fields: [created_by_id], references: [id])
+  created_users User[]  @relation("UserCreatedBy")
 
   @@index([company_id])
   @@index([role_id])
   @@index([email])
   @@index([is_deleted])
+  @@map("users")
 }
-
