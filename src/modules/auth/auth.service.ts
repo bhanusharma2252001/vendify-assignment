@@ -18,7 +18,8 @@ export class AuthService {
     if (!foundUser) throw new BadRequestException("Invalid email");
 
     const passwordMatched = await bcrypt.compare(password, foundUser.password_hash);
-    if (!passwordMatched) null;
+    
+    if (!passwordMatched) return null;
     return foundUser;
 
   }

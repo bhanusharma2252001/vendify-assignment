@@ -1,9 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request, Query, ParseUUIDPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/guards/role.guard';
 
 @Controller('users')
@@ -22,9 +20,20 @@ export class UsersController {
     return this.usersService.findAll(req.user, page, pageSize);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get("/me")
+  GetCurrentUser(@Request() req) {
+    return req.user;
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get("/roles")
+  GetRoles() {
+    return this.usersService.getRoles();
+  }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Request() req, @Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.remove(req.user, id);
   }
 }

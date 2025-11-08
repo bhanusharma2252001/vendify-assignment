@@ -1,6 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { saltNoOfRounds } from 'src/common/constants';
 import bcrypt from 'bcrypt';
@@ -9,8 +8,7 @@ import { User } from '@prisma/client';
 @Injectable()
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) { }
-  async create(user: User, createUserDto
-    // : CreateUserDto
+  async create(user: User, createUserDto : CreateUserDto
   ) {
     const role = await this.prismaService.role.findUnique({ where: { id: createUserDto.role_id } });
     if (!role) throw new BadRequestException('Invalid role id');
@@ -44,6 +42,7 @@ export class UsersService {
 
     const whereQuery = {
       company_id: user.company_id,
+      is_deleted: false
     };
 
     const total = await this.prismaService.user.count({ where: whereQuery });
@@ -65,15 +64,16 @@ export class UsersService {
 
 
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async getRoles() {
+    return await this.prismaService.role.findMany();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+  async remove(user: User, id: string) {
+    const foundUser = await this.prismaService.user.findUnique({ where: { id } });
+    if (!foundUser) throw new BadRequestException('Invalid user id');
+    if (foundUser.company_id !== user.company_id) throw new ForbiddenException('This user does not belong to this company')
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    const deletedUser = await this.prismaService.user.update({ where: { id: id }, data: { is_deleted: true } });
+    return deletedUser;
   }
 }

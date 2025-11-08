@@ -4,18 +4,17 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { CompanyAdminRole } from 'src/common/constants';
+import { CompanyAdminRole } from '../../../src/common/constants';
 import bcrypt from 'bcrypt';
-import { saltNoOfRounds } from 'src/common/constants';
+import { saltNoOfRounds } from '../../../src/common/constants';
 
 @Injectable()
 export class CompanyService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
   async create(
-    createCompanyDto,
-    // : CreateCompanyDto
+    createCompanyDto
+      : CreateCompanyDto
   ) {
     const {
       company_admin_email,
@@ -28,7 +27,10 @@ export class CompanyService {
       where: { id: companyDetais.category_id },
     });
     if (!category) throw new BadRequestException('Invalid category id');
-    
+
+    const duplicateEmail = await this.prismaService.user.findUnique({ where: { email: company_admin_email } });
+    if (duplicateEmail) throw new BadRequestException('Duplicate email')
+
     const createdCompany = await this.prismaService.company.create({
       data: {
         ...companyDetais,
@@ -61,19 +63,5 @@ export class CompanyService {
     };
   }
 
-  findAll() {
-    return `This action returns all company`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
-  }
-
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} company`;
-  }
 }

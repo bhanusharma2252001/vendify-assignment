@@ -1,1 +1,26 @@
-export class CreateUserDto {}
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  MinLength,
+  IsUUID,
+} from 'class-validator';
+
+export class CreateUserDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)   
+  password: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  role_id: string;
+}
