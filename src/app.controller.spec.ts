@@ -14,7 +14,7 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
+  describe('Health Check', () => {
     it('should return active status', () => {
     expect(appController.getHello()).toEqual({ status: 'active' });
 

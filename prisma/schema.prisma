@@ -47,7 +47,7 @@ model Address {
 
 model Role {
   id         String   @id @default(uuid())
-  name       String   @unique // e.g., "CA", "STORE_MANAGER"
+  name       String   @unique // "CA", "STORE_MANAGER"
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
