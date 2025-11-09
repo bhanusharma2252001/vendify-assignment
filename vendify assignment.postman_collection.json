@@ -84,7 +84,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZjgyODg0Ny00NDI1LTRlZDUtYmU3ZS1jYTc3YzhhOTQxMjkiLCJjb21wYW55SWQiOiJiNTBiOTk3MS01ZjgxLTRjOWQtYjczZi0zNDcxNzAyY2Q2NGIiLCJyb2xlSWQiOiJjMWQ3OTA0OC1jMWVhLTQyNjctOGMyMi0zMTllMmQ5NTc2ZDIiLCJpYXQiOjE3NjI2MjA0NzYsImV4cCI6MTc2Mjc5MzI3Nn0.EGM_9uBa85jMSwOtAoNX1nb1qr1qoj_C462l19_GguM",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1M2Q3OWM1NC1hMGU3LTQ0NmYtYjgxNi0xM2YyOGE0NzViOGEiLCJjb21wYW55SWQiOiJhNWIyYzkxZi02OTYyLTQxNmEtYWVkYy0xZDI3ZWVhOGY2ZTAiLCJyb2xlSWQiOiI1NzU3NTY1MS1mOWEyLTRlOTEtOTEzMi02NzY3ZmQ3MDQ5NjQiLCJpYXQiOjE3NjI2ODA2ODMsImV4cCI6MTc2Mjg1MzQ4M30.JKjoSE_n32RT1PNHgmhIIEt4d0eLtZXd0dnz23g222s",
 							"type": "string"
 						}
 					]
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Ram Sharma\",\r\n    \"email\": \"ram4@gmail.com\",\r\n    \"password\": \"Demo@1234\",\r\n    \"role_id\": \"39a635fe-4f0a-4088-9a7c-7f84adf04434\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Ram Sharma\",\r\n    \"email\": \"ram4@gmail.com\",\r\n    \"password\": \"Demo@1234\",\r\n    \"role_id\": \"bab15975-83d5-446f-be94-4198997a6a25\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
