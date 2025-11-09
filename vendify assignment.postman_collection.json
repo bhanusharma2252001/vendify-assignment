@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "5aac1797-6365-45b4-86b0-30984adedb74",
+		"name": "vendify assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13445120"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Company",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Adobe Corporation\",\r\n    \"registered_at\": \"2024-09-29T12:34:56.789Z\",\r\n    \"registeration_no\": \"BJHFDHFSDF23DF\",\r\n    \"company_admin_name\": \"John Doe\",\r\n    \"company_admin_email\": \"john@gmail.com\",\r\n    \"company_admin_password\": \"Demo@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/company",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bhanu@gmail.com\",\r\n    \"password\": \"Demo@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZjgyODg0Ny00NDI1LTRlZDUtYmU3ZS1jYTc3YzhhOTQxMjkiLCJjb21wYW55SWQiOiJiNTBiOTk3MS01ZjgxLTRjOWQtYjczZi0zNDcxNzAyY2Q2NGIiLCJyb2xlSWQiOiJjMWQ3OTA0OC1jMWVhLTQyNjctOGMyMi0zMTllMmQ5NTc2ZDIiLCJpYXQiOjE3NjI2MjA0NzYsImV4cCI6MTc2Mjc5MzI3Nn0.EGM_9uBa85jMSwOtAoNX1nb1qr1qoj_C462l19_GguM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Ram Sharma\",\r\n    \"email\": \"ram4@gmail.com\",\r\n    \"password\": \"Demo@1234\",\r\n    \"role_id\": \"39a635fe-4f0a-4088-9a7c-7f84adf04434\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YmMwM2MxMS05ZDQwLTQ2N2EtOGM4YS1mNGJkN2JlNjMyOWIiLCJjb21wYW55SWQiOiJiNTBiOTk3MS01ZjgxLTRjOWQtYjczZi0zNDcxNzAyY2Q2NGIiLCJyb2xlSWQiOiIzOWE2MzVmZS00ZjBhLTQwODgtOWE3Yy03Zjg0YWRmMDQ0MzQiLCJpYXQiOjE3NjI2MDc3NTMsImV4cCI6MTc2Mjc4MDU1M30.A71ufS-SiAmJ_TzVW7wMV_t2q3O0ntTgvxnlPL4vaQM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users?page=2&pageSize=2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Roles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YmMwM2MxMS05ZDQwLTQ2N2EtOGM4YS1mNGJkN2JlNjMyOWIiLCJjb21wYW55SWQiOiJiNTBiOTk3MS01ZjgxLTRjOWQtYjczZi0zNDcxNzAyY2Q2NGIiLCJyb2xlSWQiOiIzOWE2MzVmZS00ZjBhLTQwODgtOWE3Yy03Zjg0YWRmMDQ0MzQiLCJpYXQiOjE3NjI2MDc3NTMsImV4cCI6MTc2Mjc4MDU1M30.A71ufS-SiAmJ_TzVW7wMV_t2q3O0ntTgvxnlPL4vaQM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/roles",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzhhMWZjYi0wZWM2LTQ2NmUtYTUwNy03Mjg3Nzc1NTk5ZTMiLCJjb21wYW55SWQiOiI4ODE0MzRmOS0wZTMyLTRhOTctODAzNS03NjkwMGZjMjdlMWUiLCJyb2xlSWQiOiI5MGYzMzdjMy1jODFkLTRhZTktODA2Ni1lZTg5OTQ1MjEzYmQiLCJpYXQiOjE3NjI2Nzg3NjQsImV4cCI6MTc2Mjg1MTU2NH0.xhhnItQ3sejEtjssvuZIpgipb4UK8U356ezxrqLfznc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users/me",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,4 +1,3 @@
-
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
@@ -8,6 +7,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     super({
       log: [
         { emit: 'stdout', level: 'query' },
+        { emit: 'stdout', level: 'info' },
         { emit: 'stdout', level: 'error' },
         { emit: 'stdout', level: 'warn' },
       ],
@@ -18,4 +18,3 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 }
-

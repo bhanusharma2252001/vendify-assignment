@@ -19,10 +19,7 @@ RUN npx prisma generate
 # Copy rest of the project
 COPY . .
 
-# Build the NestJS project
-RUN npm run build
-
 EXPOSE 3000
 
 # Run database migrations automatically before start
-CMD npx prisma migrate deploy && node dist/main.js
+CMD npx prisma migrate dev && npm run start:dev

@@ -5,10 +5,6 @@ export class CreateCompanyDto {
     @IsNotEmpty()
     name: string;
 
-    @IsUUID()
-    @IsNotEmpty()
-    category_id: string;
-
     @IsDateString()
     registered_at: string;
 

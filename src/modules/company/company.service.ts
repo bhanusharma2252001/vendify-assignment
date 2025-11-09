@@ -23,16 +23,17 @@ export class CompanyService {
       ...companyDetais
     } = createCompanyDto;
 
-    const category = await this.prismaService.category.findUnique({
-      where: { id: companyDetais.category_id },
+    const category = await this.prismaService.category.findFirst({
+      where: { },
     });
-    if (!category) throw new BadRequestException('Invalid category id');
+    if (!category) throw new InternalServerErrorException('Master Data has not been seed yet');
 
     const duplicateEmail = await this.prismaService.user.findUnique({ where: { email: company_admin_email } });
     if (duplicateEmail) throw new BadRequestException('Duplicate email')
 
     const createdCompany = await this.prismaService.company.create({
       data: {
+        category_id: category.id,
         ...companyDetais,
       },
     });
